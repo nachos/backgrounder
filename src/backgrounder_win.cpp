@@ -55,13 +55,22 @@ NAN_METHOD(disableZOrder) {
   LPARAM lParam = *((LPARAM*)pointerVoid);
   LPWINDOWPOS windowPos = (LPWINDOWPOS)lParam;
   windowPos->flags |= SWP_NOZORDER;
-  windowPos->flags |= SWP_NOMOVE;
-  windowPos->hwndInsertAfter = HWND_BOTTOM;
 }
+
+NAN_METHOD(show) {
+  Local<Object> buffer = (info[0]->ToObject());
+  char* pointer = node::Buffer::Data(buffer);
+  void* pointerVoid = static_cast<void*>(pointer);
+  LPARAM lParam = *((LPARAM*)pointerVoid);
+  LPWINDOWPOS windowPos = (LPWINDOWPOS)lParam;
+  windowPos->flags |= SWP_SHOWWINDOW;
+}
+
 
 NAN_MODULE_INIT(init) {
   NAN_EXPORT(target, disableZOrder);
   NAN_EXPORT(target, stretch);
+  NAN_EXPORT(target, show);
 }
 
 NODE_MODULE(windows, init)
