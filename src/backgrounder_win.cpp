@@ -35,7 +35,20 @@ using Nan::True;
 using Nan::False;
 using Nan::Export;
 
-NAN_METHOD(disableZIndex) {
+NAN_METHOD(stretch) {
+  Local<Object> buffer = (info[0]->ToObject());
+  char* pointer = node::Buffer::Data(buffer);
+  void* pointerVoid = static_cast<void*>(pointer);
+  LPARAM lParam = *((LPARAM*)pointerVoid);
+  LPWINDOWPOS windowPos = (LPWINDOWPOS)lParam;
+  windowPos->x = 0;
+  windowPos->y = 0;
+  windowPos->cx = GetSystemMetrics(SM_CXSCREEN);
+  windowPos->cy = GetSystemMetrics(SM_CYSCREEN);
+
+}
+
+NAN_METHOD(disableZOrder) {
   Local<Object> buffer = (info[0]->ToObject());
   char* pointer = node::Buffer::Data(buffer);
   void* pointerVoid = static_cast<void*>(pointer);
@@ -47,7 +60,8 @@ NAN_METHOD(disableZIndex) {
 }
 
 NAN_MODULE_INIT(init) {
-  NAN_EXPORT(target, disableZIndex);
+  NAN_EXPORT(target, disableZOrder);
+  NAN_EXPORT(target, stretch);
 }
 
 NODE_MODULE(windows, init)
