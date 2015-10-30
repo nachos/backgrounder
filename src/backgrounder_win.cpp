@@ -73,4 +73,4 @@ NAN_MODULE_INIT(init) {
   NAN_EXPORT(target, show);
 }
 
-NODE_MODULE(windows, init)
+NODE_MODULE(backgrounder, init)
